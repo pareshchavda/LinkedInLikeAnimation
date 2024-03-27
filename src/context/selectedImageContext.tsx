@@ -1,6 +1,12 @@
 import React, {createContext, useState, useContext} from 'react';
 
-export const SelectedImageContext = createContext(null);
+type SelectedImageContextType = {
+  selectedImageIndex: number;
+  setSelectedImageIndex: React.Dispatch<React.SetStateAction<number>>;
+};
+
+export const SelectedImageContext =
+  createContext<SelectedImageContextType | null>(null);
 
 export const SelectedImageProvider = ({children}: any) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(-1);

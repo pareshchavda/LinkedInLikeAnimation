@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {theme} from '../common';
 import LikeButton from '../component/likeButton';
 import Popup from '../component/popup';
