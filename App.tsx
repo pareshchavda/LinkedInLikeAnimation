@@ -3,6 +3,7 @@ import {SafeAreaView, StyleSheet, View} from 'react-native';
 import LikeButton from './src/component/likeButton';
 import Popup from './src/component/popup';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {theme} from './src/common';
 
 const App = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -30,7 +31,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f5fcff',
+    backgroundColor: theme.colors.white,
   },
 });
 

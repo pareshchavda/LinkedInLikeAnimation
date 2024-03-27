@@ -1,7 +1,6 @@
-import React, {useRef, useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   View,
-  Text,
   Modal,
   StyleSheet,
   FlatList,
@@ -10,6 +9,7 @@ import {
   Pressable,
 } from 'react-native';
 import {data} from '../data';
+import {theme} from '../common';
 
 const PopUp = ({modalVisible = false, onClose = () => {}}) => {
   const [scaleValues] = useState(data.map(() => new Animated.Value(1)));
@@ -29,8 +29,6 @@ const PopUp = ({modalVisible = false, onClose = () => {}}) => {
       useNativeDriver: true,
     }).start();
   };
-
-  const slideAnim = useRef(new Animated.Value(0)).current;
 
   return (
     <Modal
@@ -85,28 +83,28 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 120,
     backgroundColor: '#d3d3',
-    borderRadius: 20,
-    marginHorizontal: 25,
+    borderRadius: theme.moderateScale(20),
+    marginHorizontal: theme.moderateScale(25),
   },
 
   zoomIn: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginHorizontal: 5,
-    padding: 5,
+    marginHorizontal: theme.moderateScale(5),
+    padding: theme.moderateScale(5),
   },
 
   textStyle: {
     color: '#000',
-    fontSize: 14,
+    fontSize: theme.moderateScale(14),
   },
   imageStyle: {
-    width: 20,
-    height: 20,
-    marginBottom: 5,
+    width: theme.moderateScale(20),
+    height: theme.moderateScale(20),
+    marginBottom: theme.moderateScale(5),
   },
   contentContainerStyle: {
-    padding: 10,
+    padding: theme.moderateScale(10),
   },
 });
 

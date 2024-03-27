@@ -1,6 +1,7 @@
 import React, {useRef, useState} from 'react';
 import {TouchableOpacity, Animated, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {theme} from '../common';
 
 const LikeButton = ({onLongPress = () => {}}) => {
   const [liked, setLiked] = useState(false);
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 10,
+    padding: theme.moderateScale(10),
   },
 });
 
