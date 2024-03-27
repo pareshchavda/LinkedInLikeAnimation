@@ -16,7 +16,7 @@ const PopUp = ({modalVisible = false, onClose = () => {}}) => {
 
   const handlePressIn = (index: number) => {
     Animated.spring(scaleValues[index], {
-      toValue: 1.6,
+      toValue: 1.5,
       friction: 3,
       useNativeDriver: true,
     }).start();
@@ -30,6 +30,19 @@ const PopUp = ({modalVisible = false, onClose = () => {}}) => {
     }).start();
   };
 
+  const renderItem = ({item, index}: any) => (
+    <TouchableOpacity
+      onPressIn={() => handlePressIn(index)}
+      onPressOut={() => handlePressOut(index)}
+      activeOpacity={1}>
+      <Animated.View
+        style={[styles.zoomIn, {transform: [{scale: scaleValues[index]}]}]}>
+        <Animated.Image source={item.imageUrl} style={[styles.imageStyle]} />
+        <Animated.Text style={styles.textStyle}>{item.title}</Animated.Text>
+      </Animated.View>
+    </TouchableOpacity>
+  );
+
   return (
     <Modal
       visible={modalVisible}
@@ -42,26 +55,7 @@ const PopUp = ({modalVisible = false, onClose = () => {}}) => {
             data={data}
             horizontal
             keyExtractor={(_, index) => index.toString()}
-            renderItem={({item, index}) => (
-              <TouchableOpacity
-                onPressIn={() => handlePressIn(index)}
-                onPressOut={() => handlePressOut(index)}
-                activeOpacity={1}>
-                <Animated.View
-                  style={[
-                    styles.zoomIn,
-                    {transform: [{scale: scaleValues[index]}]},
-                  ]}>
-                  <Animated.Image
-                    source={item.imageUrl}
-                    style={[styles.imageStyle]}
-                  />
-                  <Animated.Text style={styles.textStyle}>
-                    {item.title}
-                  </Animated.Text>
-                </Animated.View>
-              </TouchableOpacity>
-            )}
+            renderItem={renderItem}
             contentContainerStyle={styles.contentContainerStyle}
           />
         </View>
@@ -95,7 +89,7 @@ const styles = StyleSheet.create({
   },
 
   textStyle: {
-    color: '#000',
+    color: theme.colors.black,
     fontSize: theme.moderateScale(14),
   },
   imageStyle: {
