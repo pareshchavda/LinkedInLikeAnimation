@@ -11,14 +11,53 @@ import {
 } from 'react-native';
 import {data} from '../data';
 import {theme} from '../common';
+import {useSelectedImage} from '../context/selectedImageContext';
 
 const PopUp = ({modalVisible = false, onClose = () => {}}) => {
-  const [likedIndex, setLikedIndex] = useState(-1);
   const scaleValues = data.map(() => new Animated.Value(1));
+  const {selectedImageIndex, setSelectedImageIndex} = useSelectedImage();
 
-  const handleLike = (index: number) => {
-    const newLikedIndex = likedIndex === index ? -1 : index;
-    setLikedIndex(newLikedIndex);
+  console.log('selectedImageIndex', selectedImageIndex);
+
+  // const handleClose = () => {
+  //   onClose();
+  //   setLikedIndex(-1);
+  // };
+
+  // const handleLike = (index: number) => {
+  //   const newLikedIndex = likedIndex === index ? -1 : index;
+  //   setLikedIndex(newLikedIndex);
+
+  //   Animated.sequence([
+  //     Animated.timing(scaleValues[index], {
+  //       toValue: 1.2,
+  //       duration: 100,
+  //       useNativeDriver: true,
+  //     }),
+  //     Animated.timing(scaleValues[index], {
+  //       toValue: 1,
+  //       duration: 50,
+  //       useNativeDriver: true,
+  //     }),
+  //   ]).start();
+  // };
+
+  const handlePressIn = (index: number) => {
+    Animated.spring(scaleValues[index], {
+      toValue: 1.5,
+      friction: 3,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const handlePressOut = (index: number) => {
+    Animated.spring(scaleValues[index], {
+      toValue: 1,
+      friction: 3,
+      useNativeDriver: true,
+    }).start();
+    const newLikedIndex = selectedImageIndex === index ? -1 : index;
+    setSelectedImageIndex(newLikedIndex);
 
     Animated.sequence([
       Animated.timing(scaleValues[index], {
@@ -34,29 +73,11 @@ const PopUp = ({modalVisible = false, onClose = () => {}}) => {
     ]).start();
   };
 
-  const handlePressIn = (index: number) => {
-    Animated.spring(scaleValues[index], {
-      toValue: 1.5,
-      friction: 3,
-      useNativeDriver: true,
-    }).start();
-  };
-
-  const handlePressOut = (index: number) => {
-    if (likedIndex !== index) {
-      Animated.spring(scaleValues[index], {
-        toValue: 1,
-        friction: 3,
-        useNativeDriver: true,
-      }).start();
-    }
-  };
-
   const renderItem = ({item, index}: any) => (
     <TouchableOpacity
       onPressIn={() => handlePressIn(index)}
       onPressOut={() => handlePressOut(index)}
-      onPress={() => handleLike(index)}
+      // onPress={() => handleLike(index)}
       activeOpacity={1}>
       <Animated.View
         style={[styles.zoomIn, {transform: [{scale: scaleValues[index]}]}]}>
@@ -64,13 +85,13 @@ const PopUp = ({modalVisible = false, onClose = () => {}}) => {
           source={item.imageUrl}
           style={[
             styles.imageStyle,
-            {tintColor: likedIndex === index ? 'red' : 'black'},
+            {tintColor: selectedImageIndex === index ? 'red' : 'black'},
           ]}
         />
         <Animated.Text
           style={[
             styles.textStyle,
-            {color: likedIndex === index ? 'red' : 'black'},
+            {color: selectedImageIndex === index ? 'red' : 'black'},
           ]}>
           {item.title}
         </Animated.Text>
