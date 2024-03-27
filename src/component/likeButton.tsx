@@ -12,13 +12,14 @@ const LikeButton = ({onLongPress = () => {}}) => {
 
   useEffect(() => {
     if (liked) {
+      setSelectedImageIndex(0);
       Animated.timing(scaleValue, {
         toValue: 1.2,
         duration: 100,
         useNativeDriver: true,
       }).start();
     }
-  }, [liked, scaleValue]);
+  }, [liked, scaleValue, setSelectedImageIndex]);
 
   const handleLike = () => {
     setLiked(!liked);
@@ -60,7 +61,7 @@ const LikeButton = ({onLongPress = () => {}}) => {
           }
           style={[
             styles.imageStyle,
-            {tintColor: selectedImageIndex !== -1 || liked ? 'red' : 'black'},
+            {tintColor: selectedImageIndex !== -1 ? 'red' : 'black'},
           ]}
         />
       </Animated.View>
