@@ -13,25 +13,13 @@ import {data} from '../data';
 import {theme} from '../common';
 
 const PopUp = ({modalVisible = false, onClose = () => {}}) => {
-  const [scaleValues] = useState(data.map(() => new Animated.Value(1)));
-  const [likedIndex, setLikedIndex] = useState(-1); // Track the index of the liked item
+  const [likedIndex, setLikedIndex] = useState(-1);
+  const scaleValues = data.map(() => new Animated.Value(1));
 
   const handleLike = (index: number) => {
-    if (likedIndex === index) {
-      // If the same item is already liked, remove the like
-      setLikedIndex(-1);
-    } else {
-      // Set the new liked index
-      setLikedIndex(index);
-    }
+    const newLikedIndex = likedIndex === index ? -1 : index;
+    setLikedIndex(newLikedIndex);
 
-    // Reset all scale animations
-    Animated.timing(scaleValues[index], {
-      toValue: 1,
-      duration: 0,
-      useNativeDriver: true,
-    }).start();
-    // Apply animation only to the liked item
     Animated.sequence([
       Animated.timing(scaleValues[index], {
         toValue: 1.2,
@@ -55,7 +43,6 @@ const PopUp = ({modalVisible = false, onClose = () => {}}) => {
   };
 
   const handlePressOut = (index: number) => {
-    // If this item is not liked, reset its scale
     if (likedIndex !== index) {
       Animated.spring(scaleValues[index], {
         toValue: 1,
@@ -128,14 +115,12 @@ const styles = StyleSheet.create({
     borderRadius: theme.moderateScale(20),
     marginHorizontal: theme.moderateScale(25),
   },
-
   zoomIn: {
     justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: theme.moderateScale(5),
     padding: theme.moderateScale(5),
   },
-
   textStyle: {
     color: theme.colors.black,
     fontSize: theme.moderateScale(14),
